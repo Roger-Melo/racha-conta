@@ -29,6 +29,26 @@ const App = () => (
         )}
       </ul>
     </aside>
+
+    <form className="form-split-bill">
+      <h2>Rache a conta com _NOME_</h2>
+      <label>
+        💰 Valor total
+        <input type="number" defaultValue={100} />
+      </label>
+      <label>
+        🤸🏻‍♂️ Seus gastos
+        <input type="number" defaultValue={50} />
+      </label>
+      <label>
+        🤑 Quem vai pagar
+        <select>
+          <option value='you'>Você</option>
+          <option value='_NOME_'>_NOME_</option>
+        </select>
+      </label>
+      <button className="button">Rachar conta</button>
+    </form>
   </main>
 )
 
