@@ -15,8 +15,8 @@ const getMsgInfo = balance => balance < 0
 const App = () => {
   const [friends, setFriends] = useState(initialFriends)
   const [selectedFriend, setSelectedFriend] = useState(null)
-  const [totalBill, setTotalBill] = useState('100')
-  const [mySpend, setMySpend] = useState('50')
+  const [totalBill, setTotalBill] = useState('')
+  const [mySpend, setMySpend] = useState('')
   const [whoWillPay, setWhoWillPay] = useState('you')
 
   const handleClickFriend = friend => setSelectedFriend(p => p?.id === friend.id ? null : friend)
@@ -35,6 +35,11 @@ const App = () => {
       }
       : friend
     ))
+
+    setSelectedFriend(null)
+    setTotalBill('')
+    setMySpend('')
+    setWhoWillPay('you')
   }
 
   return (
