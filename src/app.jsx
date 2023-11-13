@@ -62,70 +62,75 @@ const App = () => {
   }
 
   return (
-    <main className="app">
-      <aside className="sidebar">
-        <ul>
-          {friends.map(friend => {
-            const { message, color } = getMsgInfo(friend.balance)
-            const isSelectedFriend = friend.id === selectedFriend?.id
+    <>
+      <header className='header'>
+        <img src="logo-racha-conta.png" alt="Racha-conta" />
+      </header>
+      <main className="app">
+        <aside className="sidebar">
+          <ul>
+            {friends.map(friend => {
+              const { message, color } = getMsgInfo(friend.balance)
+              const isSelectedFriend = friend.id === selectedFriend?.id
 
-            return (
-              <li key={friend.id}>
-                <img src={friend.img} alt={`Foto de ${friend.name}`} />
-                <h3>{friend.name}</h3>
-                <p className={color}>{message}</p>
-                <button
-                  onClick={() => handleClickFriend(friend)}
-                  className={`button ${isSelectedFriend ? 'button-close' : ''}`}
-                >
-                  {isSelectedFriend ? 'Fechar' : 'Selecionar'}
-                </button>
-              </li>
-            )
-          }
-          )}
-        </ul>
+              return (
+                <li key={friend.id}>
+                  <img src={friend.img} alt={`Foto de ${friend.name}`} />
+                  <h3>{friend.name}</h3>
+                  <p className={color}>{message}</p>
+                  <button
+                    onClick={() => handleClickFriend(friend)}
+                    className={`button ${isSelectedFriend ? 'button-close' : ''}`}
+                  >
+                    {isSelectedFriend ? 'Fechar' : 'Selecionar'}
+                  </button>
+                </li>
+              )
+            }
+            )}
+          </ul>
 
-        {showFormAddFriend && <form onSubmit={handleSubmitAddFriend} className="form-add-friend">
+          {showFormAddFriend && <form onSubmit={handleSubmitAddFriend} className="form-add-friend">
+            <label>
+              🧍🏻‍♂️ Nome
+              <input value={nameOfFriend} onChange={handleChangeNameOfFriend} />
+            </label>
+            <label>
+              📷 Foto
+              <input value={imgOfFriend} onChange={handleChangeImgOfFriend} />
+            </label>
+            <button className="button">Adicionar</button>
+          </form>}
+
+          <button
+            onClick={handleClickAddFriend}
+            className={`button ${showFormAddFriend ? 'button-close' : ''}`}
+          >
+            {showFormAddFriend ? 'Fechar' : 'Adicionar amigo(a)'}
+          </button>
+        </aside>
+
+        {selectedFriend && <form onSubmit={handleSubmitShareBill} className="form-split-bill">
+          <h2>Rache a conta com {selectedFriend.name}</h2>
           <label>
-            🧍🏻‍♂️ Nome
-            <input value={nameOfFriend} onChange={handleChangeNameOfFriend} />
+            💰 Valor total
+            <input value={totalBill} onChange={handleChangeBill} type="number" />
           </label>
           <label>
-            📷 Foto
-            <input value={imgOfFriend} onChange={handleChangeImgOfFriend} />
+            🤸🏻‍♂️ Seus gastos
+            <input value={mySpend} onChange={handleChangeMySpend} type="number" />
           </label>
-          <button className="button">Adicionar</button>
+          <label>
+            🤑 Quem vai pagar
+            <select value={whoWillPay} onChange={handleChangeWhoWillPay}>
+              <option value='you'>Você</option>
+              <option value={selectedFriend.name}>{selectedFriend.name}</option>
+            </select>
+          </label>
+          <button className="button">Rachar conta</button>
         </form>}
-
-        <button
-          onClick={handleClickAddFriend}
-          className={`button ${showFormAddFriend ? 'button-close' : ''}`}
-        >
-          {showFormAddFriend ? 'Fechar' : 'Adicionar amigo(a)'}
-        </button>
-      </aside>
-
-      {selectedFriend && <form onSubmit={handleSubmitShareBill} className="form-split-bill">
-        <h2>Rache a conta com {selectedFriend.name}</h2>
-        <label>
-          💰 Valor total
-          <input value={totalBill} onChange={handleChangeBill} type="number" />
-        </label>
-        <label>
-          🤸🏻‍♂️ Seus gastos
-          <input value={mySpend} onChange={handleChangeMySpend} type="number" />
-        </label>
-        <label>
-          🤑 Quem vai pagar
-          <select value={whoWillPay} onChange={handleChangeWhoWillPay}>
-            <option value='you'>Você</option>
-            <option value={selectedFriend.name}>{selectedFriend.name}</option>
-          </select>
-        </label>
-        <button className="button">Rachar conta</button>
-      </form>}
-    </main>
+      </main>
+    </>
   )
 }
 
