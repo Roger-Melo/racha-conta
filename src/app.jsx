@@ -12,6 +12,12 @@ const getMsgInfo = balance => balance < 0
     ? { message: `Te deve ${balance} reais`, color: 'green-credit' }
     : { message: 'Estão quites', color: 'white-neutral' }
 
+const Logo = () => (
+  <header className='header'>
+    <img src="logo-racha-conta.png" alt="Racha-conta" />
+  </header>
+)
+
 const App = () => {
   const [friends, setFriends] = useState(initialFriends)
   const [selectedFriend, setSelectedFriend] = useState(null)
@@ -63,9 +69,7 @@ const App = () => {
 
   return (
     <>
-      <header className='header'>
-        <img src="logo-racha-conta.png" alt="Racha-conta" />
-      </header>
+      <Logo />
       <main className="app">
         <aside className="sidebar">
           <ul>
