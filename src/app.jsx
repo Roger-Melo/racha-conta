@@ -61,6 +61,15 @@ const FormAddFriend = ({
     <button className="button">Adicionar</button>
   </form>
 
+const ButtonAddFriend = ({ showFormAddFriend, onClickAddFriend }) => (
+  <button
+    onClick={onClickAddFriend}
+    className={`button ${showFormAddFriend ? 'button-close' : ''}`}
+  >
+    {showFormAddFriend ? 'Fechar' : 'Adicionar amigo(a)'}
+  </button>
+)
+
 const App = () => {
   const [friends, setFriends] = useState(initialFriends)
   const [selectedFriend, setSelectedFriend] = useState(null)
@@ -128,12 +137,10 @@ const App = () => {
             imgOfFriend={imgOfFriend}
             onChangeImgOfFriend={handleChangeImgOfFriend}
           />
-          <button
-            onClick={handleClickAddFriend}
-            className={`button ${showFormAddFriend ? 'button-close' : ''}`}
-          >
-            {showFormAddFriend ? 'Fechar' : 'Adicionar amigo(a)'}
-          </button>
+          <ButtonAddFriend
+            showFormAddFriend={showFormAddFriend}
+            onClickAddFriend={handleClickAddFriend}
+          />
         </aside>
 
         {selectedFriend && <form onSubmit={handleSubmitShareBill} className="form-split-bill">
