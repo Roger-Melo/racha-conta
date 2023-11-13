@@ -41,6 +41,26 @@ const ListOfFriends = ({ friends, selectedFriend, onClickFriend }) => (
   </ul>
 )
 
+const FormAddFriend = ({
+  showFormAddFriend,
+  onSubmitAddFriend,
+  nameOfFriend,
+  onChangeNameOfFriend,
+  imgOfFriend,
+  onChangeImgOfFriend
+}) => showFormAddFriend &&
+  <form onSubmit={onSubmitAddFriend} className="form-add-friend">
+    <label>
+      🧍🏻‍♂️ Nome
+      <input value={nameOfFriend} onChange={onChangeNameOfFriend} />
+    </label>
+    <label>
+      📷 Foto
+      <input value={imgOfFriend} onChange={onChangeImgOfFriend} />
+    </label>
+    <button className="button">Adicionar</button>
+  </form>
+
 const App = () => {
   const [friends, setFriends] = useState(initialFriends)
   const [selectedFriend, setSelectedFriend] = useState(null)
@@ -100,19 +120,14 @@ const App = () => {
             selectedFriend={selectedFriend}
             onClickFriend={handleClickFriend}
           />
-
-          {showFormAddFriend && <form onSubmit={handleSubmitAddFriend} className="form-add-friend">
-            <label>
-              🧍🏻‍♂️ Nome
-              <input value={nameOfFriend} onChange={handleChangeNameOfFriend} />
-            </label>
-            <label>
-              📷 Foto
-              <input value={imgOfFriend} onChange={handleChangeImgOfFriend} />
-            </label>
-            <button className="button">Adicionar</button>
-          </form>}
-
+          <FormAddFriend
+            showFormAddFriend={showFormAddFriend}
+            onSubmitAddFriend={handleSubmitAddFriend}
+            nameOfFriend={nameOfFriend}
+            onChangeNameOfFriend={handleChangeNameOfFriend}
+            imgOfFriend={imgOfFriend}
+            onChangeImgOfFriend={handleChangeImgOfFriend}
+          />
           <button
             onClick={handleClickAddFriend}
             className={`button ${showFormAddFriend ? 'button-close' : ''}`}
