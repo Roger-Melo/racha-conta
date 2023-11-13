@@ -70,6 +70,36 @@ const ButtonAddFriend = ({ showFormAddFriend, onClickAddFriend }) => (
   </button>
 )
 
+const FormSplitBill = ({
+  selectedFriend,
+  onSubmitShareBill,
+  totalBill,
+  onChangeBill,
+  mySpend,
+  onChangeMySpend,
+  whoWillPay,
+  onChangeWhoWillPay
+}) => selectedFriend &&
+  <form onSubmit={onSubmitShareBill} className="form-split-bill">
+    <h2>Rache a conta com {selectedFriend.name}</h2>
+    <label>
+      💰 Valor total
+      <input value={totalBill} onChange={onChangeBill} type="number" />
+    </label>
+    <label>
+      🤸🏻‍♂️ Seus gastos
+      <input value={mySpend} onChange={onChangeMySpend} type="number" />
+    </label>
+    <label>
+      🤑 Quem vai pagar
+      <select value={whoWillPay} onChange={onChangeWhoWillPay}>
+        <option value='you'>Você</option>
+        <option value={selectedFriend.name}>{selectedFriend.name}</option>
+      </select>
+    </label>
+    <button className="button">Rachar conta</button>
+  </form>
+
 const App = () => {
   const [friends, setFriends] = useState(initialFriends)
   const [selectedFriend, setSelectedFriend] = useState(null)
@@ -142,26 +172,16 @@ const App = () => {
             onClickAddFriend={handleClickAddFriend}
           />
         </aside>
-
-        {selectedFriend && <form onSubmit={handleSubmitShareBill} className="form-split-bill">
-          <h2>Rache a conta com {selectedFriend.name}</h2>
-          <label>
-            💰 Valor total
-            <input value={totalBill} onChange={handleChangeBill} type="number" />
-          </label>
-          <label>
-            🤸🏻‍♂️ Seus gastos
-            <input value={mySpend} onChange={handleChangeMySpend} type="number" />
-          </label>
-          <label>
-            🤑 Quem vai pagar
-            <select value={whoWillPay} onChange={handleChangeWhoWillPay}>
-              <option value='you'>Você</option>
-              <option value={selectedFriend.name}>{selectedFriend.name}</option>
-            </select>
-          </label>
-          <button className="button">Rachar conta</button>
-        </form>}
+        <FormSplitBill
+          selectedFriend={selectedFriend}
+          onSubmitShareBill={handleSubmitShareBill}
+          totalBill={totalBill}
+          onChangeBill={handleChangeBill}
+          mySpend={mySpend}
+          onChangeMySpend={handleChangeMySpend}
+          whoWillPay={whoWillPay}
+          onChangeWhoWillPay={handleChangeWhoWillPay}
+        />
       </main>
     </>
   )
