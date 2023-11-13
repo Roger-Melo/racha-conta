@@ -19,12 +19,16 @@ const App = () => {
   const [mySpend, setMySpend] = useState('')
   const [whoWillPay, setWhoWillPay] = useState('you')
   const [showFormAddFriend, setShowFormAddFriend] = useState(false)
+  const [nameOfFriend, setNameOfFriend] = useState('')
+  const [imgOfFriend, setImgOfFriend] = useState('')
 
   const handleClickAddFriend = () => setShowFormAddFriend(b => !b)
   const handleClickFriend = friend => setSelectedFriend(p => p?.id === friend.id ? null : friend)
   const handleChangeBill = e => setTotalBill(e.target.value)
   const handleChangeMySpend = e => setMySpend(e.target.value)
   const handleChangeWhoWillPay = e => setWhoWillPay(e.target.value)
+  const handleChangeNameOfFriend = e => setNameOfFriend(e.target.value)
+  const handleChangeImgOfFriend = e => setImgOfFriend(e.target.value)
 
   const handleSubmitShareBill = e => {
     e.preventDefault()
@@ -42,6 +46,19 @@ const App = () => {
     setTotalBill('')
     setMySpend('')
     setWhoWillPay('you')
+  }
+
+  const handleSubmitAddFriend = (e) => {
+    e.preventDefault()
+
+    setFriends(prev => [
+      ...prev,
+      { id: crypto.randomUUID(), name: nameOfFriend, balance: 0, img: imgOfFriend }
+    ])
+
+    setNameOfFriend('')
+    setImgOfFriend('')
+    setShowFormAddFriend(false)
   }
 
   return (
@@ -69,14 +86,14 @@ const App = () => {
           )}
         </ul>
 
-        {showFormAddFriend && <form className="form-add-friend">
+        {showFormAddFriend && <form onSubmit={handleSubmitAddFriend} className="form-add-friend">
           <label>
             🧍🏻‍♂️ Nome
-            <input />
+            <input value={nameOfFriend} onChange={handleChangeNameOfFriend} />
           </label>
           <label>
             📷 Foto
-            <input />
+            <input value={imgOfFriend} onChange={handleChangeImgOfFriend} />
           </label>
           <button className="button">Adicionar</button>
         </form>}
