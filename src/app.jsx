@@ -68,6 +68,19 @@ const App = () => {
           }
           )}
         </ul>
+
+        {showFormAddFriend && <form className="form-add-friend">
+          <label>
+            🧍🏻‍♂️ Nome
+            <input />
+          </label>
+          <label>
+            📷 Foto
+            <input />
+          </label>
+          <button className="button">Adicionar</button>
+        </form>}
+
         <button
           onClick={handleClickAddFriend}
           className={`button ${showFormAddFriend ? 'button-close' : ''}`}
