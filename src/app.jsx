@@ -33,7 +33,7 @@ const App = () => {
         ...friend,
         balance: whoWillPay === 'you'
           ? friend.balance + (+totalBill - +mySpend)
-          : friend.balance - mySpend
+          : friend.balance - +mySpend
       }
       : friend
     ))
