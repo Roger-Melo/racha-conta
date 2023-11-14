@@ -41,25 +41,35 @@ const ListOfFriends = ({ friends, selectedFriend, onClickFriend }) => (
   </ul>
 )
 
-const FormAddFriend = ({
-  showFormAddFriend,
-  onSubmitAddFriend,
-  nameOfFriend,
-  onChangeNameOfFriend,
-  imgOfFriend,
-  onChangeImgOfFriend
-}) => showFormAddFriend &&
-  <form onSubmit={onSubmitAddFriend} className="form-add-friend">
-    <label>
-      🧍🏻‍♂️ Nome
-      <input value={nameOfFriend} onChange={onChangeNameOfFriend} />
-    </label>
-    <label>
-      📷 Foto
-      <input value={imgOfFriend} onChange={onChangeImgOfFriend} />
-    </label>
-    <button className="button">Adicionar</button>
-  </form>
+const FormAddFriend = ({ showFormAddFriend, onSubmitAddFriend }) => {
+  const [nameOfFriend, setNameOfFriend] = useState('')
+  const [imgOfFriend, setImgOfFriend] = useState('')
+
+  const handleChangeNameOfFriend = e => setNameOfFriend(e.target.value)
+  const handleChangeImgOfFriend = e => setImgOfFriend(e.target.value)
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    const newFriend = { id: crypto.randomUUID(), name: nameOfFriend, balance: 0, img: imgOfFriend }
+
+    onSubmitAddFriend(newFriend)
+    setNameOfFriend('')
+    setImgOfFriend('')
+  }
+
+  return showFormAddFriend &&
+    <form onSubmit={handleSubmit} className="form-add-friend">
+      <label>
+        🧍🏻‍♂️ Nome
+        <input value={nameOfFriend} onChange={handleChangeNameOfFriend} />
+      </label>
+      <label>
+        📷 Foto
+        <input value={imgOfFriend} onChange={handleChangeImgOfFriend} />
+      </label>
+      <button className="button">Adicionar</button>
+    </form>
+}
 
 const ButtonAddFriend = ({ showFormAddFriend, onClickAddFriend }) => (
   <button
@@ -119,30 +129,18 @@ const App = () => {
   const [friends, setFriends] = useState(initialFriends)
   const [selectedFriend, setSelectedFriend] = useState(null)
   const [showFormAddFriend, setShowFormAddFriend] = useState(false)
-  const [nameOfFriend, setNameOfFriend] = useState('')
-  const [imgOfFriend, setImgOfFriend] = useState('')
 
   const handleClickAddFriend = () => setShowFormAddFriend(b => !b)
   const handleClickFriend = friend => setSelectedFriend(p => p?.id === friend.id ? null : friend)
-  const handleChangeNameOfFriend = e => setNameOfFriend(e.target.value)
-  const handleChangeImgOfFriend = e => setImgOfFriend(e.target.value)
-
-  const handleSubmitAddFriend = (e) => {
-    e.preventDefault()
-
-    setFriends(prev => [
-      ...prev,
-      { id: crypto.randomUUID(), name: nameOfFriend, balance: 0, img: imgOfFriend }
-    ])
-
-    setNameOfFriend('')
-    setImgOfFriend('')
-    setShowFormAddFriend(false)
-  }
 
   const handleSubmitShareBill = friend => {
     setFriends(prev => prev.map(p => friend.id === p.id ? friend : p))
     setSelectedFriend(null)
+  }
+
+  const handleSubmitAddFriend = newFriend => {
+    setFriends(prev => [...prev, newFriend])
+    setShowFormAddFriend(false)
   }
 
   return (
@@ -158,10 +156,6 @@ const App = () => {
           <FormAddFriend
             showFormAddFriend={showFormAddFriend}
             onSubmitAddFriend={handleSubmitAddFriend}
-            nameOfFriend={nameOfFriend}
-            onChangeNameOfFriend={handleChangeNameOfFriend}
-            imgOfFriend={imgOfFriend}
-            onChangeImgOfFriend={handleChangeImgOfFriend}
           />
           <ButtonAddFriend
             showFormAddFriend={showFormAddFriend}
