@@ -1,9 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const FormSplitBill = ({ selectedFriend, onSubmitShareBill }) => {
   const [totalBill, setTotalBill] = useState('')
   const [mySpend, setMySpend] = useState('')
   const [whoWillPay, setWhoWillPay] = useState('you')
+
+  useEffect(() => {
+    document.title = `${selectedFriend.name} foi selecionado(a)`
+    return () => document.title = 'Racha-conta'
+  }, [selectedFriend.name])
 
   const handleChangeBill = e => setTotalBill(e.target.value)
   const handleChangeMySpend = e => setMySpend(e.target.value)
@@ -23,7 +28,7 @@ const FormSplitBill = ({ selectedFriend, onSubmitShareBill }) => {
     setWhoWillPay('you')
   }
 
-  return selectedFriend &&
+  return (
     <form onSubmit={handleSubmitShareBill} className="form-split-bill">
       <h2>Rache a conta com {selectedFriend.name}</h2>
       <label>
@@ -43,6 +48,7 @@ const FormSplitBill = ({ selectedFriend, onSubmitShareBill }) => {
       </label>
       <button className="button">Rachar conta</button>
     </form>
+  )
 }
 
 export { FormSplitBill }

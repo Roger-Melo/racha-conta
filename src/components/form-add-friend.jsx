@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const FormAddFriend = ({ showFormAddFriend, onSubmitAddFriend }) => {
+const FormAddFriend = ({ onSubmitAddFriend }) => {
   const [nameOfFriend, setNameOfFriend] = useState('')
   const [imgOfFriend, setImgOfFriend] = useState('')
 
@@ -16,7 +16,7 @@ const FormAddFriend = ({ showFormAddFriend, onSubmitAddFriend }) => {
     setImgOfFriend('')
   }
 
-  return showFormAddFriend &&
+  return (
     <form onSubmit={handleSubmit} className="form-add-friend">
       <label>
         🧍🏻‍♂️ Nome
@@ -28,6 +28,7 @@ const FormAddFriend = ({ showFormAddFriend, onSubmitAddFriend }) => {
       </label>
       <button className="button">Adicionar</button>
     </form>
+  )
 }
 
 export { FormAddFriend }
