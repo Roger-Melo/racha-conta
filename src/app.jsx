@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useReducer } from 'react'
 import { Logo } from './components/logo'
 import { ButtonAddFriend } from './components/button-add-friend'
 import { FormAddFriend } from './components/form-add-friend'
@@ -11,23 +11,22 @@ const initialFriends = [
   { id: crypto.randomUUID(), name: 'Dú', balance: 0, img: 'friends/du-48.jpg' }
 ]
 
+const reducer = (state, action) => ({
+  submitted_share_bill: { ...state, selectedFriend: null, friends: state.friends.map(p => action.friend?.id === p.id ? action.friend : p) },
+  selected_friend: { ...state, selectedFriend: state.selectedFriend?.id === action.friend?.id ? null : action.friend },
+  submitted_new_friend: { ...state, showFormAddFriend: false, friends: [...state.friends, action.newFriend] },
+  clicked_to_add_new_friend: { ...state, showFormAddFriend: !state.showFormAddFriend }
+})[action.type] || state
+
+const initialState = { friends: initialFriends, selectedFriend: null, showFormAddFriend: false }
+
 const App = () => {
-  const [friends, setFriends] = useState(initialFriends)
-  const [selectedFriend, setSelectedFriend] = useState(null)
-  const [showFormAddFriend, setShowFormAddFriend] = useState(false)
+  const [state, dispatch] = useReducer(reducer, initialState)
 
-  const handleClickAddFriend = () => setShowFormAddFriend(b => !b)
-  const handleClickFriend = friend => setSelectedFriend(p => p?.id === friend.id ? null : friend)
-
-  const handleSubmitShareBill = friend => {
-    setFriends(prev => prev.map(p => friend.id === p.id ? friend : p))
-    setSelectedFriend(null)
-  }
-
-  const handleSubmitAddFriend = newFriend => {
-    setFriends(prev => [...prev, newFriend])
-    setShowFormAddFriend(false)
-  }
+  const handleClickAddFriend = () => dispatch({ type: 'clicked_to_add_new_friend' })
+  const handleClickFriend = friend => dispatch({ type: 'selected_friend', friend })
+  const handleSubmitShareBill = friend => dispatch({ type: 'submitted_share_bill', friend })
+  const handleSubmitAddFriend = newFriend => dispatch({ type: 'submitted_new_friend', newFriend })
 
   return (
     <>
@@ -35,18 +34,18 @@ const App = () => {
       <main className="app">
         <aside className="sidebar">
           <ListOfFriends
-            friends={friends}
-            selectedFriend={selectedFriend}
+            friends={state.friends}
+            selectedFriend={state.selectedFriend}
             onClickFriend={handleClickFriend}
           />
-          {showFormAddFriend && <FormAddFriend onSubmitAddFriend={handleSubmitAddFriend} />}
+          {state.showFormAddFriend && <FormAddFriend onSubmitAddFriend={handleSubmitAddFriend} />}
           <ButtonAddFriend
-            showFormAddFriend={showFormAddFriend}
+            showFormAddFriend={state.showFormAddFriend}
             onClickAddFriend={handleClickAddFriend}
           />
         </aside>
-        {selectedFriend && <FormSplitBill
-          selectedFriend={selectedFriend}
+        {state.selectedFriend && <FormSplitBill
+          selectedFriend={state.selectedFriend}
           onSubmitShareBill={handleSubmitShareBill}
         />}
       </main>
