@@ -1,31 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 const FormSplitBill = ({ selectedFriend, onSubmitShareBill }) => {
-  const [totalBill, setTotalBill] = useState('')
-  const [mySpend, setMySpend] = useState('')
-  const [whoWillPay, setWhoWillPay] = useState('you')
-
   useEffect(() => {
     document.title = `${selectedFriend.name} foi selecionado(a)`
     return () => document.title = 'Racha-conta'
   }, [selectedFriend.name])
 
-  const handleChangeBill = e => setTotalBill(e.target.value)
-  const handleChangeMySpend = e => setMySpend(e.target.value)
-  const handleChangeWhoWillPay = e => setWhoWillPay(e.target.value)
-
   const handleSubmitShareBill = e => {
     e.preventDefault()
+    const { totalBill, mySpend, whoWillPay } = e.target.elements
     onSubmitShareBill({
       ...selectedFriend,
-      balance: whoWillPay === 'you'
-        ? selectedFriend.balance + (+totalBill - +mySpend)
-        : selectedFriend.balance - +mySpend
+      balance: whoWillPay.value === 'you'
+        ? selectedFriend.balance + (+totalBill.value - +mySpend.value)
+        : selectedFriend.balance - +mySpend.value
     })
-
-    setTotalBill('')
-    setMySpend('')
-    setWhoWillPay('you')
   }
 
   return (
@@ -33,16 +22,16 @@ const FormSplitBill = ({ selectedFriend, onSubmitShareBill }) => {
       <h2>Rache a conta com {selectedFriend.name}</h2>
       <label>
         💰 Valor total
-        <input value={totalBill} onChange={handleChangeBill} type="number" />
+        <input name="totalBill" type="number" />
       </label>
       <label>
         🤸🏻‍♂️ Seus gastos
-        <input value={mySpend} onChange={handleChangeMySpend} type="number" />
+        <input name="mySpend" type="number" />
       </label>
       <label>
         🤑 Quem vai pagar
-        <select value={whoWillPay} onChange={handleChangeWhoWillPay}>
-          <option value='you'>Você</option>
+        <select name="whoWillPay">
+          <option value="you">Você</option>
           <option value={selectedFriend.name}>{selectedFriend.name}</option>
         </select>
       </label>
