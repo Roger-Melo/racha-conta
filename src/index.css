@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
 * {
   margin: 0;
   padding: 0;
@@ -28,16 +29,6 @@ body {
   grid-template-columns: 34rem 44rem;
   column-gap: 4rem;
   align-items: start;
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 3rem;
-}
-
-.header img {
-  width: 28rem;
 }
 
 .button {
@@ -184,3 +175,4 @@ form h2 {
 .white-neutral {
   color: #FFF;
 }
+*/
