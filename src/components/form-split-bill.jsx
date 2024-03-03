@@ -1,4 +1,7 @@
 import { useEffect } from 'react'
+import { Form } from './shared/form'
+import { Field } from './shared/field'
+import { Button } from './shared/button'
 
 const FormSplitBill = ({ selectedFriend, onSubmitShareBill }) => {
   useEffect(() => {
@@ -18,25 +21,18 @@ const FormSplitBill = ({ selectedFriend, onSubmitShareBill }) => {
   }
 
   return (
-    <form onSubmit={handleSubmitShareBill} className="form-split-bill">
+    <Form onSubmit={handleSubmitShareBill} className="p-[3.2rem_4rem]">
       <h2>Rache a conta com {selectedFriend.name}</h2>
-      <label>
-        💰 Valor total
-        <input name="totalBill" type="number" />
-      </label>
-      <label>
-        🤸🏻‍♂️ Seus gastos
-        <input name="mySpend" type="number" />
-      </label>
-      <label>
-        🤑 Quem vai pagar
-        <select name="whoWillPay">
+      <Field labelText="💰 Valor total" inputName="totalBill" inputType="number" />
+      <Field labelText="🤸🏻‍♂️ Seus gastos" inputName="mySpend" inputType="number" />
+      <Field labelText="🤑 Quem vai pagar">
+        <select name="whoWillPay" className="text-dark-gray-blue">
           <option value="you">Você</option>
           <option value={selectedFriend.name}>{selectedFriend.name}</option>
         </select>
-      </label>
-      <button className="button">Rachar conta</button>
-    </form>
+      </Field>
+      <Button>Rachar conta</Button>
+    </Form>
   )
 }
 
