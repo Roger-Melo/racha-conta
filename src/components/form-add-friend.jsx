@@ -14,7 +14,7 @@ const FormAddFriend = ({ onSubmitAddFriend }) => {
     <Form onSubmit={handleSubmit} className="mb-[1.6rem] p-[1.2rem]">
       <Field labelText="🧍🏻‍♂️ Nome" inputName="nameOfFriend" inputType="text" />
       <Field labelText="📷 Foto" inputName="imgOfFriend" inputType="url" />
-      <Button className="bg-light-green text-[1.4rem]">Adicionar</Button>
+      <Button className="bg-light-green">Adicionar</Button>
     </Form>
   )
 }
