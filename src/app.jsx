@@ -21,33 +21,21 @@ const reducer = (state, action) => ({
 const initialState = { friends: initialFriends, selectedFriend: null, showFormAddFriend: false }
 
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
+  const [{ friends, selectedFriend, showFormAddFriend }, dispatch] = useReducer(reducer, initialState)
   const handleClickAddFriend = () => dispatch({ type: 'clicked_to_add_new_friend' })
   const handleClickFriend = friend => dispatch({ type: 'selected_friend', friend })
   const handleSubmitShareBill = friend => dispatch({ type: 'submitted_share_bill', friend })
   const handleSubmitAddFriend = newFriend => dispatch({ type: 'submitted_new_friend', newFriend })
-
   return (
     <>
       <Logo />
-      <main className="app">
-        <aside className="sidebar">
-          <ListOfFriends
-            friends={state.friends}
-            selectedFriend={state.selectedFriend}
-            onClickFriend={handleClickFriend}
-          />
-          {state.showFormAddFriend && <FormAddFriend onSubmitAddFriend={handleSubmitAddFriend} />}
-          <ButtonAddFriend
-            showFormAddFriend={state.showFormAddFriend}
-            onClickAddFriend={handleClickAddFriend}
-          />
+      <main className="min-h-[66vh] grid grid-cols-[34rem_44rem] gap-x-16 items-start">
+        <aside className="flex flex-col">
+          <ListOfFriends friends={friends} selectedFriend={selectedFriend} onClickFriend={handleClickFriend} />
+          {showFormAddFriend && <FormAddFriend onSubmitAddFriend={handleSubmitAddFriend} />}
+          <ButtonAddFriend showFormAddFriend={showFormAddFriend} onClickAddFriend={handleClickAddFriend} />
         </aside>
-        {state.selectedFriend && <FormSplitBill
-          selectedFriend={state.selectedFriend}
-          onSubmitShareBill={handleSubmitShareBill}
-        />}
+        {selectedFriend && <FormSplitBill selectedFriend={selectedFriend} onSubmitShareBill={handleSubmitShareBill} />}
       </main>
     </>
   )
